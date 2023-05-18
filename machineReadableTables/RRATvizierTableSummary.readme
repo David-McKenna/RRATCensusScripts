@@ -1,0 +1,219 @@
+                                                      (First author ?, Publication date ?)
+================================================================================
+Title ?
+    First author ?, Authors ?
+    =References ?
+================================================================================
+Keywords: 
+
+Objects:
+    -----------------------------------------
+       RA   (2000)   DE    Designation(s)
+    -----------------------------------------
+
+Abstract:
+  Description of scientific results derived from the data.
+
+Description:
+  Optional description of the data context (instrumentation used, observing
+  conditions, etc...).
+
+File Summary:
+--------------------------------------------------------------------------------
+ FileName    Lrecl   Records    Explanations
+--------------------------------------------------------------------------------
+ReadMe                       80        .  this file
+RRATObservedCharacteristics 201       29  
+SinglePulseSensitivityLimits 25        6  
+PeriodicSensitivityLimits    20        6  
+RRATTimingEphemerides       421        8  
+AppendixAmplitudeModelFits  636       15  
+
+--------------------------------------------------------------------------------
+Byte-by-byte Description of file: RRATObservedCharacteristics
+--------------------------------------------------------------------------------
+ Bytes Format Units  Label     Explanations
+--------------------------------------------------------------------------------
+  1- 10   A10    ---    Name                Source Name
+ 12- 12   A1     ---    Catalogue           Original Source Catalogue
+ 14- 16   A3     ---    Previous           ? Previous LOFAR work related to the
+                                         source
+ 18- 24   F7.4   s      Period             [0.35/3.93]? Rounded rotation period
+ 26- 33   F8.5   pc.cm-3 DM                 [8.46/82.52] Source dispersion
+                                         measure; default from single-pulse
+                                         data, otherwise from folded profile
+                                         best-fit.
+ 35- 41   F7.5   pc.cm-3 u_DM               [0.0/0.04] Uncertainty of dispersion
+                                         measure
+ 43- 47   F5.2   h      Tobs               [5.73/95.62] Observing time spent on
+                                         the source
+ 49- 51   I3     ---    Npulses            [1/371]? Number of detected single
+                                         pulses
+ 53- 58   F6.2   ms     sWidth             [2.29/49.0]? Mean single-pulse width
+ 60- 65   F6.2   ms     u_sWidth           [0.7/20.0]? Standard deviation of
+                                         pulse widths
+ 67- 71   F5.2   %      sDuty              [0.16/4.0]? Mean duty cycle for
+                                         single pulses
+ 73- 77   F5.2   %      u_sDuty            [0.05/2.0]? Standard deviation of
+                                         pulse duty cycles
+ 79- 84   F6.1   Jy     sPeak              [7.0/131.0]? Brightness of the
+                                         brightest single-pulse
+ 86- 90   F5.1   Jy     u_sPeak            [3.5/65.5]? Uncertainty of peak
+                                         brightness (50%)
+ 92-113   F22.19 ms     wSpeak             [0.0/0.07]? Width of the brightest
+                                         single-pulse
+115-134   F20.16 ---    SpeakR             [1.0/21.62]? Ratio of brightnesses
+                                         between the brightest and dimmest pulse
+                                         from the source
+136-140   F5.2   ---    Sp+IndexPulse      [-5.3/1.91]? Spectral power law fit
+                                         to single-pulse data
+142-146   F5.2   ---    u_Sp+IndexPulse    [0.05/0.8]? Uncertainty of power law
+                                         fit
+148-154   F7.3   h-1    sRate              [0.06/46.0]? Per-hour single-pulse
+                                         burst rate
+156-161   F6.3   h-1    u_sRate            [0.0/3.0]? Uncertainty of burst rate
+                                         (Poisson)
+163-168   F6.1   ms     pWidth             [11.0/187.0]? Width of period
+                                         emission
+170-174   F5.1   %      pDuty              [0.8/16.8]? Duty cycle of periodic
+                                         emission
+176-181   F6.1   0.001Jy pSmean             [1.1/231.2]? Brightness of periodic
+                                         emission
+183-189   F7.2   0.001Jy u_pSmean           [0.55/115.6]? Uncertainty of
+                                         brightness (50%)
+191-195   F5.2   ---    Sp+IndexPeriodic   [-3.7/0.7]? Spectral power law fit to
+                                         periodic emission data
+197-201   F5.2   ---    u_Sp+IndexPeriodic [0.12/0.9]? Uncertainty of power law
+                                         fit
+
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: SinglePulseSensitivityLimits
+--------------------------------------------------------------------------------
+ Bytes Format Units  Label     Explanations
+--------------------------------------------------------------------------------
+ 1-10   F10.8  s      Width      [0.0/0.17] Pulse width in seconds
+12-15   F4.2   Jy     S_Tsky_min [1.69/27.14] Sensitivity limit at the minimum
+                               observed sky temperature (v = 150MHz -> 205 K)
+17-20   F4.2   Jy     S_Tsky_med [2.37/38.02] Sensitivity limit at the median
+                               observed sky temperature (v = 150MHz -> 444 K)
+22-25   F4.2   Jy     S_Tsky_max [6.84/109.54] Sensitivity limit at the maximum
+                               observed sky temperature (v = 150MHz -> 2006 K)
+
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: PeriodicSensitivityLimits
+--------------------------------------------------------------------------------
+ Bytes Format Units  Label     Explanations
+--------------------------------------------------------------------------------
+ 1- 5   F5.3   ---    Duty Cycle [0.0/0.3] Source duty cycle (fractional)
+ 7-10   F4.2   0.001Jy S_Tsky_min [0.27/5.69] Sensitivity limit at the minimum
+                               observed sky temperature (v = 150MHz -> 205 K)
+12-15   F4.2   0.001Jy S_Tsky_med [0.38/7.97] Sensitivity limit at the median
+                               observed sky temperature (v = 150MHz -> 444 K)
+17-20   F4.2   0.001Jy S_Tsky_max [1.1/22.95] Sensitivity limit at the maximum
+                               observed sky temperature (v = 150MHz -> 2006 K)
+
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: RRATTimingEphemerides
+--------------------------------------------------------------------------------
+ Bytes Format Units  Label     Explanations
+--------------------------------------------------------------------------------
+  1- 10   A10    ---    Name     Source Name
+ 12- 20   A9     ---    Cat      Source Catalogue
+ 22- 23   A2     ---    CatSrc   Original name in source catalogue
+ 25- 26   I2     h      RAh     Right ascension (hour)
+ 28- 29   I2     min    RAm     Right ascension (minute)
+ 31- 40   F10.7  s      RAs     Right ascension (seconds)
+ 42- 61   F20.18 15arcsec u_RAs   [0.01/0.2] Uncertainty of Right Ascension
+                              (second)
+ 63- 63   A1     ---    DE-     Declination (degree)
+ 64- 65   I2     deg    DEd     Declination (degree)
+ 67- 68   I2     arcmin DEm     Declination (minute)
+ 70- 77   F8.5   arcsec DEs     Declination (seconds)
+ 79- 97   F19.17 arcsec u_DECs  [0.08/2.08] Uncertainty of Declination
+                              (arcseconds)
+ 99-117   F19.15 deg    GLON    [16.66/197.96] Galactic Longitude
+119-139   E21.16 deg    u_GLON  [0.0/0.01] Uncertainty of Galactic Longitude
+                              (degree)
+141-160   F20.16 deg    GLAT    [-9.29/77.99] Galatic Latitude
+162-183   E22.17 deg    u_GLAT  [0.0/0.01] Uncertainty of Galactic Latitude
+                              (degree)
+185-202   F18.15 pc.cm-3 DM      [8.46/55.63] Dispersion measure
+204-224   F21.19 pc.cm-3 u_DM    [0.0/0.01] Dispersion measure
+226-243   F18.13 1000pc DIST    [399.84/4237.93] Source distance (as per YWM16)
+245-262   F18.14 1000pc u_DIST  [39.98/423.8] Uncertainty of source distance
+                              (10%, as per YWM16)
+264-282   F19.17 s      P0      [0.35/3.93] Rotation Period
+284-305   E22.17 s      u_P0    [0.0/0.01] Uncertainty of rotation period
+307-325   F19.16 10-15  P1      [0.11/31.14] Spin-down Rate (seconds per second)
+327-348   F22.20 10-15  u_P1    [0.0/0.05] Uncertainty of spin down rate
+                              (seconds per second)
+350-368   F19.15 Myr    AGE     [1.99/215.73] Characteristic Age
+370-389   F20.17 10+12G B       [0.41/11.19] Surface Magnetic Field
+391-395   I5     MJD    START   [59108/59268] Start of timing range
+397-401   I5     MJD    FINISH  [59820/59850] End of timing range
+403-407   I5     MJD    PEPOCH  [59476/59558] P0 reference epoch
+409-411   I3     ---    NTOA    [43/279] Number of TOA measurements used in
+                              timing fit
+413-421   F9.3   us     TRES    [1250.12/11702.89] RMS Residual timing fit
+
+--------------------------------------------------------------------------------
+
+Byte-by-byte Description of file: AppendixAmplitudeModelFits
+--------------------------------------------------------------------------------
+ Bytes Format Units  Label     Explanations
+--------------------------------------------------------------------------------
+  1- 10   A10    ---    Name       Source Name
+ 12- 28   A17    ---    BestModel  AICc determined best fit
+ 30- 49   F20.17 ---    aPL       [-1.32/0.2] Power Law alpha
+ 51- 69   F19.17 ---    u_aPL     [0.24/1.11] Uncertainty of Power Law alpha
+ 71- 88   F18.15 ---    bBPL      [6.12/41.33] Brokwn Power Law Break
+ 90-108   F19.17 ---    u_bBPL    [0.15/4.18] Uncertainty of Brokwn Power Law
+                                Break
+110-128   F19.17 ---    a1BPL     [0.06/5.53] Broken Power Law alpha_1
+130-148   F19.17 ---    u_a1BPL   [0.31/1.78] Uncertainty of Broken Power Law
+                                alpha_1
+150-169   F20.16 ---    a2BPL     [-13.91/-0.81] Broken Power Law alpha_2
+171-190   F20.17 ---    u_a2BPL   [0.23/18.61] Uncertainty of Broken Power Law
+                                alpha_2
+192-209   F18.15 ---    bPLLN     [5.43/37.27] Power Law Log Normal Break
+211-231   F21.16 ---    u_bPLLN   [0.79/224.84]? Uncertainty of Power Law Log
+                                Normal Break
+233-251   F19.16 ---    aPLLN     [0.98/48.18] Power Law Log Normal alpha
+253-278   F26.8  ---    u_aPLLN   ? Uncertainty of Power Law Log Normal alpha
+280-301   E22.17 ---    mPLLN     [0.0/5844.24] Power Law Log Normal mu
+303-327   F25.17 ---    u_mPLLN   [0.02/377098.11]? Uncertainty of Power Law Log
+                                Normal mu
+329-350   F22.17 ---    sPLLN     [0.16/3057.15] Power Law Log Normal sigma
+352-377   F26.17 ---    u_sPLLN   [0.03/1349092.34]? Uncertainty of Power Law
+                                Log Normal sigma
+379-397   F19.16 ---    mLN       [3.76/14.74] Log Normal mu
+399-420   F22.13 ---    u_mLN     [146.36/6946998.36]? Uncertainty of Log Normal
+                                mu
+422-440   F19.16 ---    sLN       [1.88/11.38] Log Normal sigma
+442-463   F22.13 ---    u_sLN     [359.05/3551771.15]? Uncertainty of Log Normal
+                                sigma
+465-483   F19.16 ---    bLNPL     [3.76/42.67] Log Normal Power Law break
+485-502   F18.15 ---    u_bLNPL   [8.89/8.9]? Uncertainty of Log Normal Power
+                                Law break
+504-522   F19.16 ---    mLNPL     [1.16/49.73] Log Normal Power Law mu
+524-544   F21.18 ---    u_mLNPL   [0.01/0.04]? Uncertainty of Log Normal Power
+                                Law mu
+546-566   F21.17 ---    sLNPL     [0.12/106.5] Log Normal Power Law sigma
+568-588   F21.18 ---    u_sLNPL   [0.01/0.03]? Uncertainty of Log Normal Power
+                                Law sigma
+590-609   F20.17 ---    aLNPL     [0.16/16.52] Log Normal Power Law alpha
+611-636   F26.8  ---    u_aLNPL   ? Uncertainty of Log Normal Power Law alpha
+
+--------------------------------------------------------------------------------
+
+See also:
+None
+
+Acknowledgements:
+
+References:
+================================================================================
+     (prepared by author  / pyreadme )
