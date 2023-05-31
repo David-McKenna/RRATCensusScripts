@@ -9,7 +9,7 @@ from astropy.time import Time
 import matplotlib.pyplot as plt
 
 
-from genericFuncs import powerl, tempSky, pointing, lofar_tinst_range, fracBand, get_lofar_aeff_max, calculateBrightness
+from genericFuncs import powerl, tempSky, pointing, lofar_tinst_range, fracBand, get_lofar_aeff_max, calculateBrightness, generateJonesCorrection
 
 
 def processFilterbank(data, lowerChan = 64, upperChannel = 3672, targetBandwidth = fracBand, channelisationFactor = 8, offpulseFrac = 0.33):
@@ -157,14 +157,18 @@ def main():
 			else:
 				print(f"ERROR: Unable to find zap data for {key}, continuing.")
 				continue
-		for limit in zaps[prefix][2]:
-			dsData[limit[0]:limit[1], :] = np.nan
+		# Edge case: no zap data (failed to parse? corrupted script?)
+		if len(zaps[prefix]) > 2:
+			for limit in zaps[prefix][2]:
+				dsData[limit[0]:limit[1], :] = np.nan
+		else:
+			continue
 
 		normalisedSeries, freqs, flaggedFraction = processFilterbank(dsData, targetBandwidth = fracBand)
 		tinst = np.array(lofar_tinst_range(freqs))
 		aeff = get_lofar_aeff_max(freqs)
 		subbands = np.array([int((np.mean(f) - 100) / (100 / 512)) for f in freqs])
-		jonesCorrection = generateJonesCorrection(subbands, Time(dsData.header.tstart + (dsData.header.tsamp * dsData.header.nsamples / 2) / 86400, format = 'mjd').datetime, [dsData.header.ra_rad, dsData.header.dec_rad, "J2000"])
+		jonesCorrection = generateJonesCorrection(subbands, Time(dsData.header.tstart + (dsData.header.tsamp * dsData.header.nsamples / 2) / 86400, format = 'mjd').datetime, (dsData.header.ra_rad, dsData.header.dec_rad, "J2000"))
 
 		tsky = tempSky(src, freqs)
 

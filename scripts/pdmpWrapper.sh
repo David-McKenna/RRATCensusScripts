@@ -31,5 +31,8 @@ fi
 
 # Do the atual work
 echo "Beginning processing for ${fil} -> ${outputName}"
-pdmp -f -g "${file/.zap.ar/.ps}/ps" -dr 1.0 -ds 0.001 -do 0 -bf test -b -pr 0 -ps 0 -ar 0 -as 0 -output-pdm-s/n "${fil}" -g png | grep -v "INTER" > "${outputName}"
-mv "${file/.zap.ar/.ps}" "./${source}/pdmpDump/"
+pdmp -g /dev/null/ps -f -dr 0.5 -ds 0.001 -do 0 -bf test -b -pr 0 -ps 0 -ar 0 -as 0 -output-pdm-s/n "${fil}" -g png | grep -v "INTER" > "${outputName}"
+#mv "${file/.zap.ar/.ps}" "./${source}/pdmpDump/"
+
+#pdmp -f -g "${file/.zap.ar/.ps}/ps" -dr 1.0 -ds 0.001 -do 0 -bf test -b -pr 0 -ps 0 -ar 0 -as 0 -output-pdm-s/n "${fil}" -g png | grep -v "INTER" > "${outputName}"
+#mv "${file/.zap.ar/.ps}" "./${source}/pdmpDump/"

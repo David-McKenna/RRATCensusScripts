@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 
-def main(inputs)
+def main(inputs):
 	print(inputs[0])
 	with open(inputs[0], 'r') as ref:
 		dataraw = np.array([list(map(float, line.strip('\n').split())) for line in ref.readlines()])

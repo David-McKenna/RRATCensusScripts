@@ -74,21 +74,24 @@ def parToDict(lines):
 			result['DM'][1] = float(result['DM'][1])
 
 		result['DM'][0] = float(result['DM'][0])
-
-	for key in ['F0', 'F1', 'DM', 'PEPOCH', 'POSEPOCH', 'DMEPOCH', 'DM', 'TZRMJD', 'TZRFREQ', 'TRES', 'NTOA', 'START', 'FINISH']:
+	expectedKeys = ['F0', 'F1', 'DM', 'PEPOCH', 'POSEPOCH', 'DMEPOCH', 'DM', 'TZRMJD', 'TZRFREQ', 'TRES', 'NTOA', 'START', 'FINISH']
+	for key in ['P0', 'P1'] + expectedKeys:
 		if key in result.keys():
 			if len(result[key]) == 2:
 				result[key][1] = float(result[key][1])
 
 			result[key][0] = float(result[key][0])
-		else:
+		elif key in expectedKeys:
 			print(key)
+			result[key] = (np.nan, np.nan)
 
 	for key in ['RAJ', 'DECJ']:
 		if key in result.keys():
 			result[key][1] = float(result[key][1])
-
-	result['P0'], result['P1'] = periodTransform(result['F0'][0], result['F1'][0], result['F0'][1], result['F1'][1])
+			if result[key][0].count(':') != 2:
+				result[key][0] = f"{result[key][0]}:00"
+	if 'P0' not in result:
+		result['P0'], result['P1'] = periodTransform(result['F0'][0], result['F1'][0], result['F0'][1], result['F1'][1])
 
 	if result['PSRJ'][0] in manualCorrections.keys():
 		for key, val in manualCorrections[result['PSRJ'][0]].items():
@@ -97,7 +100,7 @@ def parToDict(lines):
 
 	result['CATSRC'] = [result['PSRJ'][0] if 'NAME' in result.keys() else '--', 0]
 	result['OURNAME'] = [result['NAME'][0] if 'NAME' in result.keys() else result['PSRJ'][0], 0]
-	result['CAT'] = [catalogue[result['PSRJ'][0]], 0]
+	result['CAT'] = [catalogue[result['PSRJ'][0]] if result['PSRJ'][0] in catalogue else '--', 0]
 
 	acToDeg = (360 / 24) / 60 / 60
 	sToDeg = (1) / 60 / 60
@@ -120,14 +123,14 @@ def parsePar(path):
 
 	return parToDict(lines)
 
-	
+
 def getTargetPars(path, names):
 	localNames = names.copy()
 	pars = exploreFolderTree(path, 'par')
 
 	targets = []
 	for par in pars:
-		if os.path.basename(par) in names:
+		if os.path.basename(par) in localNames:
 			targets.append(par)
 			del localNames[localNames.index(os.path.basename(par))]
 
@@ -139,6 +142,13 @@ def getTargetPars(path, names):
 	for par in targets:
 		src = os.path.basename(par).split('_')[0].split('.')[0]
 		sources[src] = parsePar(par)
+	"""
+def getTargetPars(path, names):
+	#sources = {}
+	#for par in names:
+	#	src = os.path.basename(par).split('_')[-1].rstrip('.par')
+	#	sources[src] = parsePar(par)
+	"""
 
 	for src, par in sources.items():
 		print(f"{src} P0: {stringWithErr(*par['P0'])}")
@@ -268,7 +278,11 @@ def getTargetPars(path, names):
 				print("\\dmsangle{", end = '')
 			else:
 				raise RuntimeError(f"Unexpected key: {key}")
-			errStr = stringWithErr(float(valsplit[-1]), sources[src][key][1], padding = 2)
+			errStr = stringWithErr(float(valsplit[-1]), sources[src][key][1] or np.nan, padding = 2)
+			#print(f"\n{key} {valsplit} {sources[src][key][1]} {errStr}")
+			if errStr == '--' or sources[src][key][1] == 0.0 or sources[src][key][1] == np.nan:
+				print(';'.join(valsplit), end = '}')
+				continue
 
 			print(f"{';'.join(valsplit[0:-1])};{errStr.split('(')[0]}}}({errStr.split('(')[1]} ", end = '')
 			#print(f"& {':'.join(valsplit[0:-1])}:{stringWithErr(float(valsplit[-1]), sources[src][key][1], padding = 2)} ", end = '')
@@ -279,7 +293,9 @@ def getTargetPars(path, names):
 		for src in sorted(sources.keys()):
 			print("& ", end = '')
 			errStr = stringWithErr(*sources[src][key], padding = 2)
-
+			if sources[src][key][1] == 0.0 or sources[src][key][1] == np.nan:
+				print(f"\\galangle{{{sources[src][key][0]}}}", end = '')
+				continue
 			print(f"\\galangle{{{errStr.split('(')[0]}}}({errStr.split('(')[1]} ", end = '')
 		print('\\\\')
 
@@ -306,7 +322,10 @@ def getTargetPars(path, names):
 				('NTOA', 'N\\textsubscript{TOAs}'), ('TRES', 'Model Residuals (\\SI{}{\\micro\\second})')]:
 		print(f"{label} ", end = '')
 		for src in sorted(sources.keys()):
-			print(f"& {int(sources[src][key][0])} ", end = '')
+			if np.isnan(sources[src][key][0]):
+				print('& --', end = '')
+			else:
+				print(f"& {int(sources[src][key][0])} ", end = '')
 		print('\\\\')
 
 
@@ -397,7 +416,7 @@ def getTargetMetadata(initPath):
 			sources[key]['lumWidthVals'] = (width, peak)
 			sources[key]['sSratio'] = f"{int(np.round(ratio)):3d}"
 			sources[key]['sSpeakRaw'] = (peak, ratio, width)
-			sources[key]['srate'] = stringWithErr(float(sources[key]['npulses']) / tobs, np.sqrt(float(sources[key]['npulses'])) / tobs) if sources[key]['npulses'][0] != '--' else '--'
+			sources[key]['srate'] = stringWithErr(float(sources[key]['npulses']) / tobs, np.sqrt(float(sources[key]['npulses'])) / tobs) if sources[key]['npulses'][0] != '-' else '--'
 			sources[key]['sspectral'] = stringWithErr(*openreaderr(f"{src}/spectral.txt", raiseError = False))
 		else:
 			sources[key]['sSpeakRaw'] = (np.ma.masked, np.ma.masked, np.ma.masked)

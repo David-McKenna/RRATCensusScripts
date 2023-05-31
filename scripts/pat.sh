@@ -7,4 +7,11 @@ for s in J*sh; do
 	pat -F -s ../model/"$src".std -m ../model/"$src".m -f tempo2 -A PIS "$pref"*.zap.ar > "${pref}.tim";
 	vap -c fracmjd "${pref}*zap.ar" | grep "ar" > "${pref}.vap"
 	python3 ../../scripts/dspsrCorrection.py "${pref}.tim";
+	cat "${pref}.tim" | awk '{print $2}' | grep -v "^$" | while read freq; do
+		if [ "${freq}" == "1" ];
+			continue
+		done
+		sed -i "s/${freq}/197.55859375/g" "${pref}_corrected.tim"
+	done
+
  done
