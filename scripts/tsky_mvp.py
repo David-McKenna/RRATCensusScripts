@@ -104,7 +104,7 @@ def getSkyRegion(model, coords):
 	regions = {}
 
 	for frequency, coord in coords.items():
-		regions[frequency] = model.get_sky_temperature(coord, frequency, reset_cache = False)
+		regions[frequency] = model.get_sky_temperature(coord, frequency)
 
 	return regions
 
@@ -153,9 +153,9 @@ def applyBeamGuassian(grids, temps, plot = False, plothwhm = False, saveplot = F
 
 
 def getSourceTsky(source, frequencies, model = pygdsm.LowFrequencySkyModel(freq_unit = 'MHz'), sampling = 64, nhwhm = 2, **kwargs):
-	model.generate(frequencies, reset_cache = False)
+	model.generate(frequencies)
 
-	referenceValues = {frequency: model.get_sky_temperature(source, frequency, reset_cache = False) for frequency in frequencies}
+	referenceValues = {frequency: model.get_sky_temperature(source, frequency) for frequency in frequencies}
 
 	grids, coords = getCoordinateGrid(source, frequencies, sampling, nhwhm)
 	temps = getSkyRegion(model, coords)
