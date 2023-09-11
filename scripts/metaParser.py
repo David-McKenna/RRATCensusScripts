@@ -181,7 +181,7 @@ def getTargetPars(path, names):
 		('FINISH', u_cds.MJD, int, "End of timing range"),
 		('PEPOCH', u_cds.MJD, int, "P0 reference epoch"),
 		('NTOA', None, int, "Number of TOA measurements used in timing fit"),
-		('TRES', u.microsecond, float, "RMS Residual timing fit"),
+		('TRES', u.microsecond, float, "Residual time in timing fit"),
 
 	]
 	for key, meta in sorted(sources.items(), key = lambda x: x[0]):

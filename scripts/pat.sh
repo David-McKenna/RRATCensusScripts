@@ -8,9 +8,9 @@ for s in J*sh; do
 	vap -c fracmjd "${pref}*zap.ar" | grep "ar" > "${pref}.vap"
 	python3 ../../scripts/dspsrCorrection.py "${pref}.tim";
 	cat "${pref}.tim" | awk '{print $2}' | grep -v "^$" | while read freq; do
-		if [ "${freq}" == "1" ];
+		if [ "${freq}" == "1" ]; then
 			continue
-		done
+		fi
 		sed -i "s/${freq}/197.55859375/g" "${pref}_corrected.tim"
 	done
 

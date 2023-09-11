@@ -69,7 +69,7 @@ def wrapped_ufloat_fromstr(inp):
 		if inp == '--':
 			return FakeError(np.nan)
 		if inp[0] == '(':
-			inp = f"{inp[1:-1]}{inp}"
+			inp = f"{inp.replace('(', '').replace(')', '')}{inp}"
 		working = ufloat_fromstr(inp)
 		if '(' not in inp:
 			working.std_dev = np.nan
